@@ -2,12 +2,99 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  margin-bottom: 20p;
+  margin-bottom: 20px;
 }
 
 .gallery-image{
   max-width: 50px;
   max-height: 50px;
   margin: 10px;
+}
+
+.gallery img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin-bottom: 10px;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  width: 100vw;
+  margin: 0 auto;
+  padding: 20px;
+  /* display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center; */
+}
+
+.center-content {
+  text-align: center;
+}
+
+h1 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.select-container {
+  margin-bottom: 20px;
+}
+
+.select-container label {
+  font-size: 16px;
+  margin-right: 10px;
+}
+
+.select-container select {
+  font-size: 16px;
+  padding: 5px;
+}
+
+.loading {
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+.error {
+  font-size: 18px;
+  margin-bottom: 20px;
+  color: red;
+}
+
+.park-list {
+  list-style: none;
+  padding: 0;
+}
+
+.park-list li {
+  list-style: none;
+  margin-bottom: 20px;
+}
+
+.park-list h2 {
+  font-size: 20px;
+  margin-bottom: 5px;
+}
+
+.park-list p {
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.park-list a {
+  font-size: 16px;
+  text-decoration: none;
+  color: #007bff;
+}
+
+.park-list a:hover {
+  text-decoration: underline;
 }
 
