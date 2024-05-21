@@ -1,8 +1,10 @@
-const API_KEY = "uudbgJPfE5zc88wYFiJOfqMJSoVwIRY1eMlv6aPa"
+// const API_KEY = "uudbgJPfE5zc88wYFiJOfqMJSoVwIRY1eMlv6aPa"
 
 import React, { useState, useEffect, useReducer } from 'react';
 import axios from 'axios';
 import './App.css';
+
+const API_KEY = process.env.API_KEY;
 
 const initialState = {
   activities: [],
