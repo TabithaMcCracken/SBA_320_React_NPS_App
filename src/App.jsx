@@ -2,7 +2,7 @@ import React, { useState, useEffect, useReducer } from 'react';
 import axios from 'axios';
 import './App.css';
 import { initialState, reducer } from './reducer';
-import { fetchActivities, fetchGalleryImages, fetchParksByActivity } from './apiService.jsx'
+import { fetchActivities, fetchGalleryImages, fetchParksByActivity } from './services/apiService.jsx'
 
 
 const API_KEY = import.meta.env.VITE_API_KEY;
@@ -97,7 +97,7 @@ const App = () => {
 
       <ul>
         {state.parks.map((park) => (
-          <li key={park.parkCode}>
+          <li key={park.parkCode} style={{ listStyleType: 'none' }}>
             <h2>{park.fullName}</h2>
             <p>{park.designation}</p>
             <a href={park.url} target="_blank" rel="noopener noreferrer">Visit Park Website</a>
