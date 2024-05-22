@@ -2,6 +2,7 @@ import React, { useState, useEffect, useReducer } from 'react';
 import axios from 'axios';
 import './App.css';
 import { initialState, reducer } from './reducer';
+import { fetchActivities, fetchGalleryImages, fetchParksByActivity } from './apiService.jsx'
 
 
 const API_KEY = import.meta.env.VITE_API_KEY;
@@ -10,37 +11,26 @@ const App = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   useEffect(() => {
-    const fetchActivities = async () => {
+    const loadActivities = async () => {
       try {
-        const response = await axios.get('https://developer.nps.gov/api/v1/activities', {
-          params: {
-            api_key: API_KEY
-          }
-        });
-        dispatch({ type: 'FETCH_ACTIVITIES', payload: response.data.data });
+        const activities = await fetchActivities();
+        dispatch({ type: 'FETCH_ACTIVITIES', payload: activities });
       } catch (error) {
         dispatch({ type: 'SET_ERROR', payload: 'Failed to fetch activities' });
       }
     };
 
-    const fetchGallery = async () => {
+    const loadGallery = async () => {
       try {
-        const response = await axios.get('https://developer.nps.gov/api/v1/multimedia/galleries', {
-          params: {
-            api_key: API_KEY
-          }
-        });
-        if (response.data.data && response.data.data.length > 0) {
-          const images = response.data.data.flatMap(gallery => gallery.images);
-          dispatch({ type: 'SET_GALLERY_IMAGES', payload: images });
-        }
+        const images = await fetchGalleryImages();
+        dispatch({ type: 'SET_GALLERY_IMAGES', payload: images });
       } catch (error) {
         dispatch({ type: 'SET_ERROR', payload: 'Failed to fetch gallery images' });
       }
     };
 
-    fetchActivities();
-    fetchGallery();
+    loadActivities();
+    loadGallery();
   }, []);
 
   useEffect(() => {
@@ -51,42 +41,25 @@ const App = () => {
     return () => clearInterval(intervalId);
   }, [state.currentIndex, state.galleryImages.length]);
 
-  const fetchParksByActivity = async (activityId) => {
-    dispatch({ type: 'SET_LOADING', payload: true });
-    dispatch({ type: 'SET_ERROR', payload: null });
-
-    try {
-      const response = await axios.get('https://developer.nps.gov/api/v1/activities/parks', {
-        params: {
-          id: activityId,
-          api_key: API_KEY
-        }
-      });
-      if (response.data.data && response.data.data.length > 0) {
-        const parksData = response.data.data[0].parks;
-        dispatch({ type: 'SET_PARKS', payload: parksData });
-      } else {
-        dispatch({ type: 'SET_PARKS', payload: [] });
-        dispatch({ type: 'SET_ERROR', payload: 'No parks found for this activity.' });
-      }
-    } catch (error) {
-      if (error.response) {
-        dispatch({ type: 'SET_ERROR', payload: `Error: ${error.response.status} - ${error.response.data.message}` });
-      } else if (error.request) {
-        dispatch({ type: 'SET_ERROR', payload: 'Error: No response received from server.' });
-      } else {
-        dispatch({ type: 'SET_ERROR', payload: `Error: ${error.message}` });
-      }
-    } finally {
-      dispatch({ type: 'SET_LOADING', payload: false });
-    }
-  };
-
-  const handleActivityChange = (event) => {
+  const handleActivityChange = async (event) => {
     const activityId = event.target.value;
     dispatch({ type: 'SET_SELECTED_ACTIVITY', payload: activityId });
+
     if (activityId) {
-      fetchParksByActivity(activityId);
+      dispatch({ type: 'SET_LOADING', payload: true });
+      dispatch({ type: 'SET_ERROR', payload: null });
+
+      try {
+        const parks = await fetchParksByActivity(activityId);
+        dispatch({ type: 'SET_PARKS', payload: parks });
+        if (parks.length === 0) {
+          dispatch({ type: 'SET_ERROR', payload: 'No parks found for this activity.' });
+        }
+      } catch (error) {
+        dispatch({ type: 'SET_ERROR', payload: 'Failed to fetch parks' });
+      } finally {
+        dispatch({ type: 'SET_LOADING', payload: false });
+      }
     }
   };
 
