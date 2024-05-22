@@ -1,41 +1,10 @@
-// const API_KEY = "uudbgJPfE5zc88wYFiJOfqMJSoVwIRY1eMlv6aPa"
-
 import React, { useState, useEffect, useReducer } from 'react';
 import axios from 'axios';
 import './App.css';
+import { initialState, reducer } from './reducer';
 
-const API_KEY = process.env.API_KEY;
 
-const initialState = {
-  activities: [],
-  selectedActivity: '',
-  parks: [],
-  loading: false,
-  error: null,
-  galleryImages: [],
-  currentIndex: 0
-};
-
-const reducer = (state, action) => {
-  switch (action.type) {
-    case 'FETCH_ACTIVITIES':
-      return { ...state, activities: action.payload };
-    case 'SET_SELECTED_ACTIVITY':
-      return { ...state, selectedActivity: action.payload };
-    case 'SET_LOADING':
-      return { ...state, loading: action.payload };
-    case 'SET_ERROR':
-      return { ...state, error: action.payload };
-    case 'SET_PARKS':
-      return { ...state, parks: action.payload };
-    case 'SET_GALLERY_IMAGES':
-      return { ...state, galleryImages: action.payload };
-    case 'SET_CURRENT_INDEX':
-      return { ...state, currentIndex: action.payload };
-    default:
-      return state;
-  }
-};
+const API_KEY = import.meta.env.VITE_API_KEY;
 
 const App = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
