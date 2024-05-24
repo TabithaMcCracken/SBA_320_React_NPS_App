@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useReducer } from 'react';
 import axios from 'axios';
 import './App.css';
+import ActivitySelector from './components/ActivitySelector.jsx';
 import { initialState, reducer } from './reducer';
 import { fetchActivities, fetchGalleryImages, fetchParksByActivity } from './services/apiService.jsx'
 
@@ -80,17 +81,11 @@ const App = () => {
         )}
       </div>
 
-      <div>
-        <label htmlFor="activity">Select an activity: </label>
-        <select id="activity" value={state.selectedActivity} onChange={handleActivityChange}>
-          <option value="">--Select an activity--</option>
-          {state.activities.map((activity) => (
-            <option key={activity.id} value={activity.id}>
-              {activity.name}
-            </option>
-          ))}
-        </select>
-      </div>
+      <ActivitySelector
+        activities={state.activities}
+        selectedActivity={state.selectedActivity}
+        onActivityChange={handleActivityChange}
+      />
 
       {state.loading && <div>Loading...</div>}
       {state.error && <div>{state.error}</div>}
@@ -266,6 +261,8 @@ export default App;
 // };
 
 // export default App;
+
+
 
 {/* An attempt to filter by public domaind
 <div className="gallery">
