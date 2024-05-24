@@ -2,6 +2,8 @@ import React, { useState, useEffect, useReducer } from 'react';
 import axios from 'axios';
 import './App.css';
 import ActivitySelector from './components/ActivitySelector.jsx';
+import Gallery from './components/Gallery.jsx';
+import ParkList from './components/ParkList.jsx';
 import { initialState, reducer } from './reducer';
 import { fetchActivities, fetchGalleryImages, fetchParksByActivity } from './services/apiService.jsx'
 
@@ -69,17 +71,10 @@ const App = () => {
     <div className='center-content'>
       <h1>National Parks by Activity</h1>
 
-      <div className="gallery">
-        {state.galleryImages.length > 0 && (
-          <img
-            src={state.galleryImages[state.currentIndex].url}
-            alt={state.galleryImages[state.currentIndex].altText}
-            title={state.galleryImages[state.currentIndex].title}
-            className="gallery-image"
-            style={{ maxWidth: '200px', maxHeight: '150px' }}
-          />
-        )}
-      </div>
+      <Gallery
+        galleryImages={state.galleryImages}
+        currentIndex={state.currentIndex}
+      />
 
       <ActivitySelector
         activities={state.activities}
@@ -90,15 +85,7 @@ const App = () => {
       {state.loading && <div>Loading...</div>}
       {state.error && <div>{state.error}</div>}
 
-      <ul>
-        {state.parks.map((park) => (
-          <li key={park.parkCode} style={{ listStyleType: 'none' }}>
-            <h2>{park.fullName}</h2>
-            <p>{park.designation}</p>
-            <a href={park.url} target="_blank" rel="noopener noreferrer">Visit Park Website</a>
-          </li>
-        ))}
-      </ul>
+      <ParkList parks={state.parks} />
     </div>
     </div>
   );
