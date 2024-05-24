@@ -22,12 +22,14 @@ body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
+  background-color: #617969;
+  width: 100%;
 }
 
 .container {
-  width: 100vw;
+  width: 100%;
   margin: 0 auto;
-  padding: 20px;
+  padding: 0px;
   /* display: flex;
   flex-direction: column;
   justify-content: center;
@@ -35,7 +37,10 @@ body {
 }
 
 .center-content {
+  width: 100%;
   text-align: center;
+  color: #E4D7CF;
+
 }
 
 h1 {
@@ -91,7 +96,7 @@ h1 {
 .park-list a {
   font-size: 16px;
   text-decoration: none;
-  color: #007bff;
+  color: #8A3240;
 }
 
 .park-list a:hover {
@@ -103,12 +108,16 @@ h1 {
   padding-left: 0;
 }
 
+nav {
+  background-color: #8A3240;
+}
+
 .navigation-bar {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  background-color: #333;
+  background-color: #8A3240;
   color: white;
   padding: 10px 20px;
 }
@@ -116,10 +125,10 @@ h1 {
 .gallery-card {
   width: 400px; /* Adjust the width as needed */
   height: 300px; /* Adjust the height as needed */
-  border: 1px solid #ccc;
   border-radius: 8px;
   overflow: hidden;
   margin: 0 auto;
+  background-color: #98705D;
 }
 
 .gallery-image-container {
@@ -138,12 +147,49 @@ h1 {
 
 header {
   margin-top: 20px;
+  color: #E4D7CF;
+}
+
+.park-card-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center; /* Center horizontally */
+  max-width: 1000px; /* Adjust the maximum width as needed */
+  margin: 0 auto;
+
 }
 
 .park-card {
-  border: 1px solid #ccc;
+  color: #E4D7CF;
   border-radius: 8px;
   padding: 16px;
   margin-bottom: 16px;
-  background-color: lightgray;
+  background-color: #98705D;
+  max-width: 95%;
+}
+
+select {
+  color: #E4D7CF;
+}
+
+.park-card a.park-link {
+  color: #8A3240;
+  text-decoration: none;
+}
+
+.park-card a.park-link:hover {
+  text-decoration: underline;
+}
+
+.park-card a[href] {
+  color: #8A3240 !important;
+  text-decoration: none;
+}
+
+.button-class {
+  background-color: #617969;
+}
+
+#activity {
+  background-color:#8A3240;
 }

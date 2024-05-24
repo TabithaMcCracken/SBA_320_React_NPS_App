@@ -51,7 +51,7 @@ const App = () => {
         type: "SET_CURRENT_INDEX",
         payload: (state.currentIndex + 1) % state.galleryImages.length,
       });
-    }, 1000);
+    }, 5000);
 
     return () => clearInterval(intervalId);
   }, [state.currentIndex, state.galleryImages.length]);
