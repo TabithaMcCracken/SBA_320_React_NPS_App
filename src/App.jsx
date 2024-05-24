@@ -1,34 +1,43 @@
-import React, { useState, useEffect, useReducer } from 'react';
-import axios from 'axios';
-import './App.css';
-import ActivitySelector from './components/ActivitySelector.jsx';
-import Gallery from './components/Gallery.jsx';
-import ParkList from './components/ParkList.jsx';
-import { initialState, reducer } from './reducer';
-import { fetchActivities, fetchGalleryImages, fetchParksByActivity } from './services/apiService.jsx'
-
+import React, { useState, useEffect, useReducer } from "react";
+import axios from "axios";
+import "./App.css";
+import ActivitySelector from "./components/ActivitySelector.jsx";
+import Gallery from "./components/Gallery.jsx";
+import ParkList from "./components/ParkList.jsx";
+import Favorites from "./components/Favorites.jsx";
+import NavigationBar from "./components/NavBar.jsx";
+import { initialState, reducer } from "./reducer";
+import {
+  fetchActivities,
+  fetchGalleryImages,
+  fetchParksByActivity,
+} from "./services/apiService.jsx";
 
 const API_KEY = import.meta.env.VITE_API_KEY;
 
 const App = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
+  const [view, setView] = useState("main");
 
   useEffect(() => {
     const loadActivities = async () => {
       try {
         const activities = await fetchActivities();
-        dispatch({ type: 'FETCH_ACTIVITIES', payload: activities });
+        dispatch({ type: "FETCH_ACTIVITIES", payload: activities });
       } catch (error) {
-        dispatch({ type: 'SET_ERROR', payload: 'Failed to fetch activities' });
+        dispatch({ type: "SET_ERROR", payload: "Failed to fetch activities" });
       }
     };
 
     const loadGallery = async () => {
       try {
         const images = await fetchGalleryImages();
-        dispatch({ type: 'SET_GALLERY_IMAGES', payload: images });
+        dispatch({ type: "SET_GALLERY_IMAGES", payload: images });
       } catch (error) {
-        dispatch({ type: 'SET_ERROR', payload: 'Failed to fetch gallery images' });
+        dispatch({
+          type: "SET_ERROR",
+          payload: "Failed to fetch gallery images",
+        });
       }
     };
 
@@ -38,55 +47,87 @@ const App = () => {
 
   useEffect(() => {
     const intervalId = setInterval(() => {
-      dispatch({ type: 'SET_CURRENT_INDEX', payload: (state.currentIndex + 1) % state.galleryImages.length });
-    }, 3000);
+      dispatch({
+        type: "SET_CURRENT_INDEX",
+        payload: (state.currentIndex + 1) % state.galleryImages.length,
+      });
+    }, 1000);
 
     return () => clearInterval(intervalId);
   }, [state.currentIndex, state.galleryImages.length]);
 
   const handleActivityChange = async (event) => {
     const activityId = event.target.value;
-    dispatch({ type: 'SET_SELECTED_ACTIVITY', payload: activityId });
+    dispatch({ type: "SET_SELECTED_ACTIVITY", payload: activityId });
 
     if (activityId) {
-      dispatch({ type: 'SET_LOADING', payload: true });
-      dispatch({ type: 'SET_ERROR', payload: null });
+      dispatch({ type: "SET_LOADING", payload: true });
+      dispatch({ type: "SET_ERROR", payload: null });
 
       try {
         const parks = await fetchParksByActivity(activityId);
-        dispatch({ type: 'SET_PARKS', payload: parks });
+        dispatch({ type: "SET_PARKS", payload: parks });
         if (parks.length === 0) {
-          dispatch({ type: 'SET_ERROR', payload: 'No parks found for this activity.' });
+          dispatch({
+            type: "SET_ERROR",
+            payload: "No parks found for this activity.",
+          });
         }
       } catch (error) {
-        dispatch({ type: 'SET_ERROR', payload: 'Failed to fetch parks' });
+        dispatch({ type: "SET_ERROR", payload: "Failed to fetch parks" });
       } finally {
-        dispatch({ type: 'SET_LOADING', payload: false });
+        dispatch({ type: "SET_LOADING", payload: false });
       }
     }
   };
 
+  const addToFavorites = (park) => {
+    dispatch({ type: "ADD_TO_FAVORITES", payload: park });
+  };
+
+  const removeFromFavorites = (parkCode) => {
+    dispatch({ type: "REMOVE_FROM_FAVORITES", payload: parkCode });
+  };
+
   return (
-    <div className="container">
-    <div className='center-content'>
-      <h1>National Parks by Activity</h1>
+    <div>
+      <NavigationBar onViewChange={setView} view={view} />
+      <div className="container">
+        <div className="center-content">
+          <br />
+          <h1>National Parks by Activity</h1>
+          <h3>Find National Parks where you can do your favorite activites!</h3>
+          <br />
+          {/* <button onClick={() => setView(view === "main" ? "favorites" : "main")}>
+          {view === "main" ? "See Favorites" : "Back to Main"}
+        </button> */}
 
-      <Gallery
-        galleryImages={state.galleryImages}
-        currentIndex={state.currentIndex}
-      />
+          {view === "main" ? (
+            <>
+              <Gallery
+                galleryImages={state.galleryImages}
+                currentIndex={state.currentIndex}
+              />
+              <br />
+              <ActivitySelector
+                activities={state.activities}
+                selectedActivity={state.selectedActivity}
+                onActivityChange={handleActivityChange}
+              />
 
-      <ActivitySelector
-        activities={state.activities}
-        selectedActivity={state.selectedActivity}
-        onActivityChange={handleActivityChange}
-      />
+              {state.loading && <div>Loading...</div>}
+              {state.error && <div>{state.error}</div>}
 
-      {state.loading && <div>Loading...</div>}
-      {state.error && <div>{state.error}</div>}
-
-      <ParkList parks={state.parks} />
-    </div>
+              <ParkList parks={state.parks} addToFavorites={addToFavorites} />
+            </>
+          ) : (
+            <Favorites
+              favorites={state.favorites}
+              removeFromFavorites={removeFromFavorites}
+            />
+          )}
+        </div>
+      </div>
     </div>
   );
 };
@@ -214,11 +255,6 @@ export default App;
 //         )}
 //       </div>
 
-
-
-
-
-
 //       <div>
 //         <label htmlFor="activity">Select an activity: </label>
 //         <select id="activity" value={selectedActivity} onChange={handleActivityChange}>
@@ -249,9 +285,8 @@ export default App;
 
 // export default App;
 
-
-
-{/* An attempt to filter by public domaind
+{
+  /* An attempt to filter by public domaind
 <div className="gallery">
   {galleryImages.map((data, index) => {
     console.log('Data object:', data);
@@ -270,5 +305,5 @@ export default App;
       />
     ) : null;
   })}
-</div> */}
-
+</div> */
+}
