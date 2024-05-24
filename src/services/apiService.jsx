@@ -1,7 +1,8 @@
 // src/apiService.js
 import axios from 'axios';
 
-const API_KEY = import.meta.env.VITE_API_KEY;
+// const API_KEY = import.meta.env.VITE_API_KEY;
+const API_KEY = "uudbgJPfE5zc88wYFiJOfqMJSoVwIRY1eMlv6aPa";
 
 export const fetchActivities = async () => {
   const response = await axios.get('https://developer.nps.gov/api/v1/activities', {

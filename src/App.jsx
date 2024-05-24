@@ -13,7 +13,8 @@ import {
   fetchParksByActivity,
 } from "./services/apiService.jsx";
 
-const API_KEY = import.meta.env.VITE_API_KEY;
+// const API_KEY = import.meta.env.VITE_API_KEY;
+const API_KEY = "uudbgJPfE5zc88wYFiJOfqMJSoVwIRY1eMlv6aPa";
 
 const App = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
