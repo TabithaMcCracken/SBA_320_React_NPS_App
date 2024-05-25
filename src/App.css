@@ -1,21 +1,14 @@
-.gallery{
+.gallery {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   margin-bottom: 20px;
 }
 
-.gallery-image{
-  max-width: 50px;
-  max-height: 50px;
-  margin: 10px;
-}
-
-.gallery img {
-  max-width: 100%;
-  height: auto;
-  display: block;
-  margin-bottom: 10px;
+.gallery-image {
+  max-width: 90%;
+  max-height: 90%;
+  object-fit: contain; /* To maintain aspect ratio */
 }
 
 body {
@@ -24,23 +17,27 @@ body {
   padding: 0;
   background-color: #617969;
   width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
 }
 
 .container {
   width: 100%;
   margin: 0 auto;
   padding: 0px;
-  /* display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center; */
 }
 
 .center-content {
   width: 100%;
   text-align: center;
-  color: #E4D7CF;
+  color: #e4d7cf;
+}
 
+.center-container {
+  max-width: 95%;
+  padding: 20px;
 }
 
 h1 {
@@ -50,7 +47,6 @@ h1 {
 
 .select-container {
   margin-bottom: 20px;
-
 }
 
 .select-container label {
@@ -97,7 +93,7 @@ h1 {
 .park-list a {
   font-size: 16px;
   text-decoration: none;
-  color: #8A3240;
+  color: #8a3240;
 }
 
 .park-list a:hover {
@@ -110,7 +106,7 @@ h1 {
 }
 
 nav {
-  background-color: #8A3240;
+  background-color: #8a3240;
 }
 
 .navigation-bar {
@@ -118,7 +114,7 @@ nav {
   top: 0;
   left: 0;
   width: 100%;
-  background-color: #8A3240;
+  background-color: #8a3240;
   color: white;
   padding: 10px 20px;
 }
@@ -140,15 +136,11 @@ nav {
   align-items: center;
 }
 
-.gallery-image {
-  max-width: 90%;
-  max-height: 90%;
-  object-fit: contain; /* To maintain aspect ratio */
-}
+
 
 header {
   margin-top: 20px;
-  color: #E4D7CF;
+  color: #e4d7cf;
 }
 
 .park-card-container {
@@ -157,11 +149,10 @@ header {
   justify-content: center; /* Center horizontally */
   max-width: 1000px; /* Adjust the maximum width as needed */
   margin: 0 auto;
-
 }
 
 .park-card {
-  color: #E4D7CF;
+  color: #e4d7cf;
   border-radius: 8px;
   padding: 16px;
   margin-bottom: 16px;
@@ -170,11 +161,11 @@ header {
 }
 
 select {
-  color: #E4D7CF;
+  color: #e4d7cf;
 }
 
 .park-card a.park-link {
-  color: #8A3240;
+  color: #8a3240;
   text-decoration: none;
 }
 
@@ -183,14 +174,15 @@ select {
 }
 
 .park-card a[href] {
-  color: #8A3240 !important;
+  color: #8a3240 !important;
   text-decoration: none;
 }
 
 .button-class {
   background-color: #617969;
+  color: #e4d7cf;
 }
 
 #activity {
-  background-color:#8A3240;
+  background-color: #8a3240;
 }
